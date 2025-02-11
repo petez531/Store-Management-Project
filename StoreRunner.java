@@ -38,7 +38,7 @@ public class StoreRunner {
                 case "inventory" -> System.out.println(store.toString());
                 case "create item" -> store.addItem(this.createItem());
                 case "create expirable item" -> store.addItem(this.createExpirableItem());
-                case "get item info" -> System.out.println(getItemInfo());
+                case "get item info" -> getItemInfo();
                 case "change item info" -> changeItemInfo();
                 case "remove item" -> removeItem();
                 case "exit" -> running = false;
@@ -50,12 +50,21 @@ public class StoreRunner {
     }
 
     public void removeItem() {
+        if (this.store.isEmpty()) {
+            System.out.println("There are no items to remove.");
+            return;
+        }
+
+
         String item;
 
         while (true) {
             System.out.print("Item name: ");
             item = input.nextLine().toLowerCase();
-            if (store.hasItem(item)) {
+            if (item.equals("exit")) {
+                return;
+            }
+            else if (store.hasItem(item)) {
                 break;
             }
             System.out.println("This item is not in the inventory");
@@ -71,7 +80,10 @@ public class StoreRunner {
         while (true) {
             System.out.print("Item name: ");
             item = input.nextLine().toLowerCase();
-            if (store.hasItem(item)) {
+            if (item.equals("exit")) {
+                return;
+            }
+            else if (store.hasItem(item)) {
                 break;
             }
             System.out.println("This item is not in the inventory");
@@ -95,6 +107,7 @@ public class StoreRunner {
             System.out.print(variable + " value: ");
             value = input.nextLine().toLowerCase();
             switch (variable) {
+                case "exit" -> {return;}
                 case "name" -> {
                     if (!value.equals("")) {
                         store.changeItemInfo(item, variable, value);
@@ -151,20 +164,21 @@ public class StoreRunner {
         }
     }
 
-    public String getItemInfo() {
+    public void getItemInfo() {
         String item;
 
         while (true) {
             System.out.print("Item name: ");
             item = input.nextLine();
-            if (store.hasItem(item)) {
+            if (item.equals("exit")) {
+                return;
+            }
+            else if (store.hasItem(item)) {
                 break;
             }
             System.out.println("This item is not in the inventory");
         }
-        System.out.println();
-
-        return this.store.getItemString(item);
+        System.out.println(this.store.getItemString(item));
     }
 
     public Item createItem() {

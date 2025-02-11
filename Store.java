@@ -15,6 +15,10 @@ public class Store {
         this.inventory.remove(item);
     }
 
+    public boolean isEmpty() {
+        return this.inventory.isEmpty();
+    }
+
     public String[] getInventory() {
         return this.inventory.keySet().toArray(new String[this.inventory.size()]);
     }
