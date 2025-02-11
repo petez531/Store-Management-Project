@@ -1,10 +1,10 @@
 import java.util.HashMap;
 
 public class Store {
-    private HashMap<String, Item> inventory;
+    private final HashMap<String, Item> inventory;
     
     public Store() {
-        this.inventory = new HashMap<String, Item>();
+        this.inventory = new HashMap<>();
     }
 
     public void addItem(Item item) {
@@ -16,7 +16,7 @@ public class Store {
     }
 
     public String[] getInventory() {
-        return this.inventory.keySet().toArray(new String[0]);
+        return this.inventory.keySet().toArray(new String[this.inventory.size()]);
     }
 
     public boolean hasItem(String item) {
@@ -34,31 +34,25 @@ public class Store {
         }
       
         switch (variable) {
-            case "name":
-                this.inventory.get(item).setName(value);
-                break;
-            case "price":
-                this.inventory.get(item).setPrice(Double.parseDouble(value));
-                break;
-            case "amount":
-                this.inventory.get(item).setAmount(Integer.parseInt(value));
-                break;
-            case "discount":
-                this.inventory.get(item).setDiscount(Double.parseDouble(value));
-                break;
-            case "expiration date":
-                if (this.inventory.get(item) instanceof ExpirableItem) {
-                    ExpirableItem expirableItem = (ExpirableItem) this.inventory.get(item);
+            case "name" -> this.inventory.get(item).setName(value);
+            case "price" -> this.inventory.get(item).setPrice(Double.parseDouble(value));
+            case "amount" -> this.inventory.get(item).setAmount(Integer.parseInt(value));
+            case "discount" -> this.inventory.get(item).setDiscount(Double.parseDouble(value));
+            case "expiration date" -> {
+                if (this.inventory.get(item) instanceof ExpirableItem expirableItem) {
                     expirableItem.setExpirationDate(value);
                 }
-                break;
+            }
+
         }
     }
 
     public boolean isItemExpirable(String item) {
-        return (this.inventory.get(item).getClass().getSimpleName() == "ExpirableItem") ? true : false;
+        return this.inventory.get(item).getClass().getSimpleName().equals("ExpirableItem");
     }
 
+    @Override
     public String toString() {
         return String.format("Inventory: %s", String.join(", ", this.getInventory()));
     }
+}
