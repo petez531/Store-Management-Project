@@ -8,7 +8,7 @@ public class StoreRunner {
     Store store;
     Scanner input;
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
 
         StoreRunner runner = new StoreRunner();
         runner.run();
