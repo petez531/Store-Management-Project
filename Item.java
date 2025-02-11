@@ -70,7 +70,9 @@ public class Item{
         this.discount = discount;
     }
   
+    @Override
     public String toString() {
         return String.format("Item Name: %s\nItem Price: $%.2f\nItem Amount: %,d\nItem Discount: %.2f%%\nItem True Price: $%.2f",
                              this.name, this.price, this.amount, (this.discount * 100), this.getTruePrice());
     }
+}
