@@ -1,5 +1,5 @@
-import java.time.LocalDate;
 import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class ExpirableItem extends Item {
@@ -53,7 +53,9 @@ public class ExpirableItem extends Item {
         this.expirationDate = expirationDate;
     }
 
+    @Override
     public String toString() {
         return String.format("%s\nItem Expiration Date: %tF\nIs Expired: %b%s",
                              super.toString(), this.expirationDate, this.isExpired(), (this.isExpired() ? "" : String.format("\nDays Until Expired: %,d", this.daysUntilExpiration())));
     }
+}
