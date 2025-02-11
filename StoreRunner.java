@@ -58,8 +58,8 @@ public class StoreRunner {
 
         while (true) {
             System.out.print("Item name: ");
-            item = input.nextLine().toLowerCase();
-            if (item.equals("exit")) {
+            item = input.nextLine();
+            if (item.equalsIgnoreCase("exit")) {
                 return;
             }
             else if (store.hasItem(item)) {
@@ -77,8 +77,8 @@ public class StoreRunner {
 
         while (true) {
             System.out.print("Item name: ");
-            item = input.nextLine().toLowerCase();
-            if (item.equals("exit")) {
+            item = input.nextLine();
+            if (item.equalsIgnoreCase("exit")) {
                 return;
             }
             else if (store.hasItem(item)) {
@@ -89,17 +89,17 @@ public class StoreRunner {
 
         while (true) {
             System.out.print("Item variable (help): ");
-            variable = input.nextLine().toLowerCase();
-            if (variable.equals("exit") {
+            variable = input.nextLine();
+            if (variable.equalsIgnoreCase("exit") {
                 return;
             }
-            else if (variable.equals("help")) {
+            else if (variable.equalsIgnoreCase("help")) {
                 System.out.println("Variables: name, price, amount, discount, expiration date");
             }
             else if (Arrays.asList(validVariables).contains(variable)) {
                 break;
             }
-            else if (store.isItemExpirable(item) && variable.equals("expiration date")) {
+            else if (store.isItemExpirable(item) && variable.equalsIgnoreCase("expiration date")) {
                 break;
             }
         }
@@ -110,7 +110,7 @@ public class StoreRunner {
             switch (variable) {
                 case "exit" -> {return;}
                 case "name" -> {
-                    if (!value.equals("")) {
+                    if (!value.equalsIgnoreCase("")) {
                         store.changeItemInfo(item, variable, value);
                         return;
                     }
@@ -171,7 +171,7 @@ public class StoreRunner {
         while (true) {
             System.out.print("Item name: ");
             item = input.nextLine();
-            if (item.equals("exit")) {
+            if (item.equalsIgnoreCase("exit")) {
                 return;
             }
             else if (store.hasItem(item)) {
@@ -190,10 +190,10 @@ public class StoreRunner {
         while (true) {
             System.out.print("Name of the item: ");
             name = input.nextLine();
-            if (name.equals("exit") {
+            if (name.equalsIgnoreCase("exit") {
                 return;
             }
-            if (name.equals("")) {
+            if (name.equalsIgnoreCase("")) {
                 System.out.println("Name must have a length greater than 0");
                 continue;
             }
@@ -203,7 +203,7 @@ public class StoreRunner {
         while (true) {
             System.out.print("Price of the item: ");
             String priceString = input.nextLine();
-            if (priceString.equals("exit") {
+            if (priceString.equalsIgnoreCase("exit") {
                 return;
             }
             try {
@@ -222,7 +222,7 @@ public class StoreRunner {
         while (true) {
             System.out.print("Item amount: ");
             String amountString = input.nextLine();
-            if (amountString.equals("exit") {
+            if (amountString.equalsIgnoreCase("exit") {
                 return;
             }
             try {
@@ -241,7 +241,7 @@ public class StoreRunner {
         while (true) {
             System.out.print("Item discount: ");
             String discountString = input.nextLine();
-            if (discountString.equals("exit") {
+            if (discountString.equalsIgnoreCase("exit") {
                 return;
             }
             try {
@@ -270,10 +270,10 @@ public class StoreRunner {
         while (true) {
             System.out.print("Name of the item: ");
             name = input.nextLine();
-            if (name.equals("exit") {
+            if (name.equalsIgnoreCase("exit") {
                 return;
             }
-            else if (name.equals("")) {
+            else if (name.equalsIgnoreCase("")) {
                 System.out.println("Name must have a length greater than 0");
                 continue;
             }
@@ -283,7 +283,7 @@ public class StoreRunner {
         while (true) {
             System.out.print("Price of the item: ");
             String priceString = input.nextLine();
-            if (priceString.equals("exit") {
+            if (priceString.equalsIgnoreCase("exit") {
                 return;
             }
             try {
@@ -302,7 +302,7 @@ public class StoreRunner {
         while (true) {
             System.out.print("Item amount: ");
             String amountString = input.nextLine();
-            if (amountString.equals("exit") {
+            if (amountString.equalsIgnoreCase("exit") {
                 return;
             }
             try {
@@ -321,7 +321,7 @@ public class StoreRunner {
         while (true) {
             System.out.print("Item discount: ");
             String discountString = input.nextLine();
-            if (discountString.equals("exit") {
+            if (discountString.equalsIgnoreCase("exit") {
                 return;
             }
             try {
@@ -340,7 +340,7 @@ public class StoreRunner {
         while (true) {
             System.out.print("Item expiration date: ");
             String expirationDateString = input.nextLine();
-            if (expirationDateString.equals("exit") {
+            if (expirationDateString.equalsIgnoreCase("exit") {
                 return;
             }
             try {
