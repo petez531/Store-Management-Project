@@ -18,9 +18,7 @@ public class StoreRunner {
         input = new Scanner(System.in);
         store = new Store();
 
-        boolean running = true;
-
-        while (running) {
+        while (true) {
             System.out.println();
             System.out.print("Action (help): ");
             String userInput = input.nextLine().toLowerCase();
@@ -36,12 +34,12 @@ public class StoreRunner {
                                        remove item\t\t-> removes an item from the inventory
                                        exit\t\t\t-> quits the program""");
                 case "inventory" -> System.out.println(store.toString());
-                case "create item" -> store.addItem(this.createItem());
-                case "create expirable item" -> store.addItem(this.createExpirableItem());
+                case "create item" -> createItem();
+                case "create expirable item" -> createExpirableItem();
                 case "get item info" -> getItemInfo();
                 case "change item info" -> changeItemInfo();
                 case "remove item" -> removeItem();
-                case "exit" -> running = false;
+                case "exit" -> return;
                 default -> System.out.println("Enter a valid command");
             }
         }
@@ -92,7 +90,10 @@ public class StoreRunner {
         while (true) {
             System.out.print("Item variable (help): ");
             variable = input.nextLine().toLowerCase();
-            if (variable.equals("help")) {
+            if (variable.equals("exit") {
+                return;
+            }
+            else if (variable.equals("help")) {
                 System.out.println("Variables: name, price, amount, discount, expiration date");
             }
             else if (Arrays.asList(validVariables).contains(variable)) {
@@ -181,7 +182,7 @@ public class StoreRunner {
         System.out.println(this.store.getItemString(item));
     }
 
-    public Item createItem() {
+    public void createItem() {
         String name;
         double price, discount;
         int amount;
@@ -189,6 +190,9 @@ public class StoreRunner {
         while (true) {
             System.out.print("Name of the item: ");
             name = input.nextLine();
+            if (name.equals("exit") {
+                return;
+            }
             if (name.equals("")) {
                 System.out.println("Name must have a length greater than 0");
                 continue;
@@ -199,6 +203,9 @@ public class StoreRunner {
         while (true) {
             System.out.print("Price of the item: ");
             String priceString = input.nextLine();
+            if (priceString.equals("exit") {
+                return;
+            }
             try {
                 price = Double.parseDouble(priceString);
             }
@@ -215,6 +222,9 @@ public class StoreRunner {
         while (true) {
             System.out.print("Item amount: ");
             String amountString = input.nextLine();
+            if (amountString.equals("exit") {
+                return;
+            }
             try {
                 amount = Integer.parseInt(amountString);
             }
@@ -231,6 +241,9 @@ public class StoreRunner {
         while (true) {
             System.out.print("Item discount: ");
             String discountString = input.nextLine();
+            if (discountString.equals("exit") {
+                return;
+            }
             try {
                 discount = Double.parseDouble(discountString);
             }
@@ -245,8 +258,7 @@ public class StoreRunner {
         }
 
         Item item = new Item(name, price, amount, discount);
-
-        return item;
+        store.addItem(item);
     }
 
     public Item createExpirableItem() {
@@ -258,7 +270,10 @@ public class StoreRunner {
         while (true) {
             System.out.print("Name of the item: ");
             name = input.nextLine();
-            if (name.equals("")) {
+            if (name.equals("exit") {
+                return;
+            }
+            else if (name.equals("")) {
                 System.out.println("Name must have a length greater than 0");
                 continue;
             }
@@ -268,6 +283,9 @@ public class StoreRunner {
         while (true) {
             System.out.print("Price of the item: ");
             String priceString = input.nextLine();
+            if (priceString.equals("exit") {
+                return;
+            }
             try {
                 price = Double.parseDouble(priceString);
             }
@@ -284,6 +302,9 @@ public class StoreRunner {
         while (true) {
             System.out.print("Item amount: ");
             String amountString = input.nextLine();
+            if (amountString.equals("exit") {
+                return;
+            }
             try {
                 amount = Integer.parseInt(amountString);
             }
@@ -300,6 +321,9 @@ public class StoreRunner {
         while (true) {
             System.out.print("Item discount: ");
             String discountString = input.nextLine();
+            if (discountString.equals("exit") {
+                return;
+            }
             try {
                 discount = Double.parseDouble(discountString);
             }
@@ -316,6 +340,9 @@ public class StoreRunner {
         while (true) {
             System.out.print("Item expiration date: ");
             String expirationDateString = input.nextLine();
+            if (expirationDateString.equals("exit") {
+                return;
+            }
             try {
                 expirationDate = LocalDate.parse(expirationDateString);
             }
@@ -327,7 +354,6 @@ public class StoreRunner {
         }
 
         ExpirableItem expirableItem = new ExpirableItem(name, price, amount, discount, expirationDate);
-
-        return expirableItem;
+        store.addItem(expirableItem);
     }
 }
