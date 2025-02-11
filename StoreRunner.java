@@ -28,14 +28,12 @@ public class StoreRunner {
                                        Commands:
                                        inventory\t\t-> prints current inventory
                                        create item\t\t-> adds an item to the inventory
-                                       create expirable item\t-> adds an expirable item to the inventory
                                        get item info\t\t-> gets an items information
                                        change item info\t-> changes an items information
                                        remove item\t\t-> removes an item from the inventory
                                        exit\t\t\t-> quits the program""");
                 case "inventory" -> System.out.println(store.toString());
-                case "create item" -> createItem();
-                case "create expirable item" -> createExpirableItem();
+                case "create item" -> createItemMeta();
                 case "get item info" -> getItemInfo();
                 case "change item info" -> changeItemInfo();
                 case "remove item" -> removeItem();
@@ -180,6 +178,31 @@ public class StoreRunner {
             System.out.println("This item is not in the inventory");
         }
         System.out.println(this.store.getItemString(item));
+    }
+
+    public void createItemMeta() {
+        boolean expirable;
+        
+        while (true) {
+            System.out.print("Is the item expirable: ");
+            String expirableString = input.nextLine();
+            if (priceString.equalsIgnoreCase("exit") {
+                return;
+            }
+            try {
+                expirable = Boolean.parseBoolean(expirableString);
+            }
+            catch (IllegalArgumentException ex) {
+                System.out.println("expirability is of invalid format.");
+                continue;
+            }
+            if (price) {
+                createExpirableItem();
+            }
+            else {
+                createItem();
+            }
+        }
     }
 
     public void createItem() {
