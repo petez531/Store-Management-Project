@@ -33,16 +33,17 @@ public class StoreRunner {
                                        remove item\t\t-> removes an item from the inventory
                                        exit\t\t\t-> quits the program""");
                 case "inventory" -> System.out.println(store.toString());
-                case "create item" -> createItemMeta();
+                case "create item" -> createItem();
                 case "get item info" -> getItemInfo();
                 case "change item info" -> changeItemInfo();
                 case "remove item" -> removeItem();
-                case "exit" -> return;
+                case "exit" -> {
+                    input.close();
+                    return;
+                }
                 default -> System.out.println("Enter a valid command");
             }
         }
-
-        input.close();
     }
 
     public void removeItem() {
@@ -88,11 +89,11 @@ public class StoreRunner {
         while (true) {
             System.out.print("Item variable (help): ");
             variable = input.nextLine();
-            if (variable.equalsIgnoreCase("exit") {
+            if (variable.equalsIgnoreCase("exit")) {
                 return;
             }
             else if (variable.equalsIgnoreCase("help")) {
-                System.out.println("Variables: name, price, amount, discount, expiration date");
+                System.out.println(String.format("Variables: name, price, amount, discount%s", store.isItemExpirable(item) ? ", expiration date" : ""));
             }
             else if (Arrays.asList(validVariables).contains(variable)) {
                 break;
@@ -180,120 +181,33 @@ public class StoreRunner {
         System.out.println(this.store.getItemString(item));
     }
 
-    public void createItemMeta() {
-        boolean expirable;
-        
-        while (true) {
-            System.out.print("Is the item expirable: ");
-            String expirableString = input.nextLine();
-            if (priceString.equalsIgnoreCase("exit") {
-                return;
-            }
-            try {
-                expirable = Boolean.parseBoolean(expirableString);
-            }
-            catch (IllegalArgumentException ex) {
-                System.out.println("expirability is of invalid format.");
-                continue;
-            }
-            if (price) {
-                createExpirableItem();
-            }
-            else {
-                createItem();
-            }
-        }
-    }
-
     public void createItem() {
         String name;
         double price, discount;
         int amount;
-
-        while (true) {
-            System.out.print("Name of the item: ");
-            name = input.nextLine();
-            if (name.equalsIgnoreCase("exit") {
-                return;
-            }
-            if (name.equalsIgnoreCase("")) {
-                System.out.println("Name must have a length greater than 0");
-                continue;
-            }
-            break;
-        }
-
-        while (true) {
-            System.out.print("Price of the item: ");
-            String priceString = input.nextLine();
-            if (priceString.equalsIgnoreCase("exit") {
-                return;
-            }
-            try {
-                price = Double.parseDouble(priceString);
-            }
-            catch (IllegalArgumentException ex) {
-                System.out.println("price is of invalid format.");
-                continue;
-            }
-            if (price >= 0) {
-                break;
-            }
-            System.out.println("Price must be above 0");
-        }
-
-        while (true) {
-            System.out.print("Item amount: ");
-            String amountString = input.nextLine();
-            if (amountString.equalsIgnoreCase("exit") {
-                return;
-            }
-            try {
-                amount = Integer.parseInt(amountString);
-            }
-            catch (IllegalArgumentException ex) {
-                System.out.println("amount is of invalid format.");
-                continue;
-            }
-            if (amount >= 0) {
-                break;
-            }
-            System.out.println("Amount must be above 0");
-        }
-
-        while (true) {
-            System.out.print("Item discount: ");
-            String discountString = input.nextLine();
-            if (discountString.equalsIgnoreCase("exit") {
-                return;
-            }
-            try {
-                discount = Double.parseDouble(discountString);
-            }
-            catch (IllegalArgumentException ex) {
-                System.out.println("discount is of invalid format.");
-                continue;
-            }
-            if (discount >= 0) {
-                break;
-            }
-            System.out.println("Discount must be above 0");
-        }
-
-        Item item = new Item(name, price, amount, discount);
-        store.addItem(item);
-    }
-
-    public Item createExpirableItem() {
-        String name;
-        double price, discount;
-        int amount;
+        boolean expirable;
         LocalDate expirationDate;
 
         while (true) {
+            System.out.print("Is the item expirable (yes/no): ");
+            String stringExpirable = input.nextLine();
+            if (stringExpirable.equalsIgnoreCase("exit")) {
+                return;
+            }
+            else if (stringExpirable.equalsIgnoreCase("yes")) {
+                expirable = true;
+                break;
+            }
+            else if (stringExpirable.equalsIgnoreCase("no")) {
+                expirable = false;
+                break;
+            }
+        }
+
+        while (true) {
             System.out.print("Name of the item: ");
             name = input.nextLine();
-            if (name.equalsIgnoreCase("exit") {
+            if (name.equalsIgnoreCase("exit")) {
                 return;
             }
             else if (name.equalsIgnoreCase("")) {
@@ -306,7 +220,7 @@ public class StoreRunner {
         while (true) {
             System.out.print("Price of the item: ");
             String priceString = input.nextLine();
-            if (priceString.equalsIgnoreCase("exit") {
+            if (priceString.equalsIgnoreCase("exit")) {
                 return;
             }
             try {
@@ -325,7 +239,7 @@ public class StoreRunner {
         while (true) {
             System.out.print("Item amount: ");
             String amountString = input.nextLine();
-            if (amountString.equalsIgnoreCase("exit") {
+            if (amountString.equalsIgnoreCase("exit")) {
                 return;
             }
             try {
@@ -344,7 +258,7 @@ public class StoreRunner {
         while (true) {
             System.out.print("Item discount: ");
             String discountString = input.nextLine();
-            if (discountString.equalsIgnoreCase("exit") {
+            if (discountString.equalsIgnoreCase("exit")) {
                 return;
             }
             try {
@@ -360,23 +274,30 @@ public class StoreRunner {
             System.out.println("Discount must be above 0");
         }
 
-        while (true) {
-            System.out.print("Item expiration date: ");
-            String expirationDateString = input.nextLine();
-            if (expirationDateString.equalsIgnoreCase("exit") {
-                return;
-            }
-            try {
-                expirationDate = LocalDate.parse(expirationDateString);
-            }
-            catch (DateTimeException ex) {
-                System.out.println("Unable to parse expiration date. Expiration date format is invalid. It must be in the form yyyy-mm-dd");
-                continue;
-            }
-            break;
+        if (!expirable) {
+            Item item = new Item(name, price, amount, discount);
+            store.addItem(item);
         }
 
-        ExpirableItem expirableItem = new ExpirableItem(name, price, amount, discount, expirationDate);
-        store.addItem(expirableItem);
+        else {
+            while (true) {
+                System.out.print("Item expiration date: ");
+                String expirationDateString = input.nextLine();
+                if (expirationDateString.equalsIgnoreCase("exit")) {
+                    return;
+                }
+                try {
+                    expirationDate = LocalDate.parse(expirationDateString);
+                }
+                catch (DateTimeException ex) {
+                    System.out.println("Unable to parse expiration date. Expiration date format is invalid. It must be in the form yyyy-mm-dd");
+                    continue;
+                }
+                break;
+            }
+
+            ExpirableItem expirableItem = new ExpirableItem(name, price, amount, discount, expirationDate);
+            store.addItem(expirableItem);
+        }
     }
 }

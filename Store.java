@@ -38,7 +38,15 @@ public class Store {
         }
       
         switch (variable) {
-            case "name" -> this.inventory.get(item).setName(value);
+            case "name" -> {
+                this.inventory.get(item).setName(value);
+                if (this.inventory.get(item) instanceof ExpirableItem) {
+                    this.addItem((ExpirableItem) this.inventory.remove(item));
+                }
+                else {
+                    this.addItem(this.inventory.remove(item));
+                }
+                }
             case "price" -> this.inventory.get(item).setPrice(Double.parseDouble(value));
             case "amount" -> this.inventory.get(item).setAmount(Integer.parseInt(value));
             case "discount" -> this.inventory.get(item).setDiscount(Double.parseDouble(value));
